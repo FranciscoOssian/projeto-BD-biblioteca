@@ -1,4 +1,5 @@
 from database.services.generic import GenericService
+from database.models import Intern
 
 class InternService(GenericService):
     def __init__(self, conn):
