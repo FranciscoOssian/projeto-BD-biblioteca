@@ -1,1 +1,1 @@
-SELECT * FROM emprestimo WHERE id = ?;
+SELECT * FROM loan WHERE id = ?;

@@ -1,2 +1,2 @@
-INSERT INTO emprestimo (data_retirado, data_devolucao, id_livro, id_leitor) 
+INSERT INTO loan (data_retirado, data_devolucao, id_livro, id_leitor) 
 VALUES (?, ?, ?, ?);

@@ -11,9 +11,9 @@ CREATE TABLE IF NOT EXISTS book (
     isbn INTEGER,
     ano_publicacao INTEGER,
     autor TEXT,
-    id_emprestimo INTEGER,
+    id_loan INTEGER,
     id_categoria INTEGER,
-    FOREIGN KEY (id_emprestimo) REFERENCES emprestimo(id),
+    FOREIGN KEY (id_loan) REFERENCES loan(id),
     FOREIGN KEY (id_categoria) REFERENCES categorias(id)
 );
 
