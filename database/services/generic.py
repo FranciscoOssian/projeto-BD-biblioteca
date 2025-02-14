@@ -1,7 +1,7 @@
 from database.utils import read_sql_file
 
 class GenericService:
-    def __init__(self, conn, entity_name):
+    def __init__(self, conn, entity_name, model=None):
         """
         Classe base para serviços CRUD genéricos.
 
