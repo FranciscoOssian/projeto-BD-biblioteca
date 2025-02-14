@@ -7,5 +7,5 @@ class Student:
         self.idFuncionario = idFuncionario
         self.anosTrabalhados = anosTrabalhados
     def __repr__(self):
-        """Retorna uma representação string do objeto Librarian."""
+        """Retorna uma representação string do objeto Bibliotecário."""
         return f"Librarian(idFuncionario={self.idFuncionario}, anosTrabalhados='{self.anosTrabalhados})"

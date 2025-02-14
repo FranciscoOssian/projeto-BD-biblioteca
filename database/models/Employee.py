@@ -1,4 +1,4 @@
-class Book:
+class Employee:
     def __init__(self, nome, telefone, cargo, idFuncionario, idBiblioteca):
         
         #Classe que representa um funcionario.
