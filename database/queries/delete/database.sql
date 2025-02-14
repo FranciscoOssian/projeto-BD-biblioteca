@@ -1,5 +1,1 @@
-CREATE TABLE IF NOT EXISTS student (
-    id INTEGER PRIMARY KEY,
-    age INTEGER,
-    school TEXT
-);
+DROP DATABASE IF EXISTS app.db;
