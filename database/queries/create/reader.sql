@@ -1,0 +1,1 @@
+INSERT INTO reader (nome, endereco, data_registro, tipo_leitor) VALUES (?, ?, ?, ?);

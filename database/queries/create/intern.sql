@@ -1,0 +1,1 @@
+INSERT INTO intern (fim_estagio) VALUES (?);

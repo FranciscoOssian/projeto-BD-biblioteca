@@ -1,6 +1,6 @@
 import sqlite3
 
-from database.services import student, database  # Importa o módulo student do pacote services
+from database.services import student, database, book  # Importa o módulo student do pacote services
 
 def main():
     """Função principal para demonstrar o uso da biblioteca."""
@@ -18,13 +18,21 @@ def main():
         db_service = database.DataBaseService(conn)
         db_service.create()
         student_service = student.StudentService(conn)  # Cria uma instância de StudentService
+        book_service = book.BookService(conn)
 
         # 3. Exemplos de operações CRUD (usando StudentService)
 
         # Cria um novo aluno
-        success = student_service.create(1, 20, "Escola Municipal")
+        success = student_service.create(20, "Escola Municipal")
         if success:
             print("Aluno criado com sucesso!")
+            id = book_service.create('Dom Casmurro', 'Editora X', 9788594318602, 1899, 'Machado de Assis', 0, 1)
+            bookData = book_service.get(id)
+            if success:
+                print("livro criado com sucesso!", bookData)
+                #result = book_service.get()
+            else:
+                print("Falha ao criar livro.")
         else:
             print("Falha ao criar aluno.")
 
