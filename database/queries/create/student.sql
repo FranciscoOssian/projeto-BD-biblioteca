@@ -1,1 +1,1 @@
-INSERT INTO student (id, age, school) VALUES (?, ?, ?);
+INSERT INTO student (age, school) VALUES (?, ?);

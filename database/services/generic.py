@@ -20,7 +20,7 @@ class GenericService:
         try:
             self.cursor.execute(sql, args)
             self.conn.commit()
-            return True
+            return self.cursor.lastrowid
         except Exception as e:
             self.conn.rollback()
             print(f"Erro ao criar {self.entity_name}: {e}")
