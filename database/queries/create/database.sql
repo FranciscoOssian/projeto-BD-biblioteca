@@ -27,13 +27,13 @@ CREATE TABLE IF NOT EXISTS reader (
     endereco TEXT NOT NULL,
     data_registro TIMESTAMP NOT NULL,
     tipo_leitor TEXT
-);
+); 
 CREATE TABLE IF NOT EXISTS teacher (
     id INTEGER PRIMARY KEY NOT NULL,
     email TEXT NOT NULL,
     materia TEXT
 );
-CREATE TABLE IF NOT EXISTS emprestimo (
+CREATE TABLE IF NOT EXISTS loan (
     id INTEGER PRIMARY KEY,
     data_retirado TIMESTAMP NOT NULL,
     data_devolucao TIMESTAMP NOT NULL,

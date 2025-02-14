@@ -20,13 +20,16 @@ def main():
         student_service = student.StudentService(conn)  # Cria uma instância de StudentService
 
         # 3. Exemplos de operações CRUD (usando StudentService)
-
+        """
         # Cria um novo aluno
-        success = student_service.create(1, 20, "Escola Municipal")
+        success = student_service.delete(2)
         if success:
-            print("Aluno criado com sucesso!")
+            print("Aluno Deletado com sucesso!")
         else:
-            print("Falha ao criar aluno.")
+            print("Falha ao Deletar aluno.")
+        """
+        
+
 
     except Exception as e:
         print(f"Ocorreu um erro: {e}")

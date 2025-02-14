@@ -51,15 +51,16 @@ class GenericService:
             print(f"Erro ao atualizar {self.entity_name}: {e}")
             return False
 
-    def delete(self, id_value):
+    def delete(self, *id_value):
         """Deleta um registro."""
         sql_file = f"queries/delete/{self.entity_name}.sql"
         sql = read_sql_file(sql_file)
         try:
-            self.cursor.execute(sql, (id_value,))
+            self.cursor.execute(sql, id_value)
             self.conn.commit()
             return True
         except Exception as e:
             self.conn.rollback()
             print(f"Erro ao deletar {self.entity_name}: {e}")
             return False
+        
