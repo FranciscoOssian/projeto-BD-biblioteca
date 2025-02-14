@@ -1,5 +1,5 @@
 from database.services.generic import GenericService
-from models.Book import Book
+from database.models.Book import Book
 
 class BookService(GenericService):
     def __init__(self, conn):
