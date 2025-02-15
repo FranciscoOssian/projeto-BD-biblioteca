@@ -14,12 +14,12 @@ class GenericService:
         self.entity_name = entity_name
         self.model = model
 
-    def create(self, *args):
+    def create(self, tuples):
         """Cria um novo registro."""
         sql_file = f"queries/create/{self.entity_name}.sql"
         sql = read_sql_file(sql_file)
         try:
-            self.cursor.execute(sql, args)
+            self.cursor.executemany(sql, tuples)
             self.conn.commit()
             return self.cursor.lastrowid
         except Exception as e:
@@ -40,12 +40,12 @@ class GenericService:
             print(f"Erro ao buscar {self.entity_name} com id {id_value}: {e}")
             return None
 
-    def update(self, id_value, *args):
+    def update(self, tuples):
         """Atualiza um registro."""
         sql_file = f"queries/update/{self.entity_name}.sql"
         sql = read_sql_file(sql_file)
         try:
-            self.cursor.execute(sql, (*args, id_value))  # Assume ID é o último parâmetro
+            self.cursor.executemany(sql, tuples)  # Assume ID é o último parâmetro
             self.conn.commit()
             return True
         except Exception as e:
@@ -53,12 +53,12 @@ class GenericService:
             print(f"Erro ao atualizar {self.entity_name}: {e}")
             return False
 
-    def delete(self, *id_value):
+    def delete(self, tuples):
         """Deleta um registro."""
         sql_file = f"queries/delete/{self.entity_name}.sql"
         sql = read_sql_file(sql_file)
         try:
-            self.cursor.execute(sql, id_value)
+            self.cursor.executemany(sql, tuples)
             self.conn.commit()
             return True
         except Exception as e:
