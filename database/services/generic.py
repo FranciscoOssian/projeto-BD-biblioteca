@@ -1,7 +1,7 @@
 from database.utils import read_sql_file
 
 class GenericService:
-    def __init__(self, conn, entity_name):
+    def __init__(self, conn, entity_name, model=None):
         """
         Classe base para serviços CRUD genéricos.
 
@@ -12,6 +12,7 @@ class GenericService:
         self.conn = conn
         self.cursor = conn.cursor()
         self.entity_name = entity_name
+        self.model = model
 
     def create(self, *args):
         """Cria um novo registro."""
@@ -20,7 +21,7 @@ class GenericService:
         try:
             self.cursor.execute(sql, args)
             self.conn.commit()
-            return True
+            return self.cursor.lastrowid
         except Exception as e:
             self.conn.rollback()
             print(f"Erro ao criar {self.entity_name}: {e}")
@@ -33,6 +34,7 @@ class GenericService:
         try:
             self.cursor.execute(sql, (id_value,))
             result = self.cursor.fetchone()
+            print(result)
             return result
         except Exception as e:
             print(f"Erro ao buscar {self.entity_name} com id {id_value}: {e}")
@@ -51,15 +53,16 @@ class GenericService:
             print(f"Erro ao atualizar {self.entity_name}: {e}")
             return False
 
-    def delete(self, id_value):
+    def delete(self, *id_value):
         """Deleta um registro."""
         sql_file = f"queries/delete/{self.entity_name}.sql"
         sql = read_sql_file(sql_file)
         try:
-            self.cursor.execute(sql, (id_value,))
+            self.cursor.execute(sql, id_value)
             self.conn.commit()
             return True
         except Exception as e:
             self.conn.rollback()
             print(f"Erro ao deletar {self.entity_name}: {e}")
             return False
+        

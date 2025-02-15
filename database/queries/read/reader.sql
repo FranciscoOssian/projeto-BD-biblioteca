@@ -1,0 +1,1 @@
+SELECT * FROM reader WHERE id = ?;
