@@ -9,5 +9,5 @@ def create_student(age:int, school:str):
     conn = get_db()
     student = StudentService.StudentService(conn).create(age, school)
     if student is None:
-        raise HTTPException(status_code=404, detail="Student não encontrado")
+        raise HTTPException(status_code=400, detail="Failed to create student")
     return student

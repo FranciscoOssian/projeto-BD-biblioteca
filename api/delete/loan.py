@@ -7,7 +7,7 @@ router = APIRouter()
 @router.delete("/delete/loan/{id}")
 def delete_loan(id:int):
     conn = get_db()
-    loan = LoanService.LoanService(conn).delete(id)
-    if loan is None:
+    deleted = LoanService.LoanService(conn).delete(id)
+    if not deleted:
         raise HTTPException(status_code=404, detail="Loan não encontrado")
-    return loan
+    return {"message": "Book deleted successfully"}

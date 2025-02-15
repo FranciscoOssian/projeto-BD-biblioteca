@@ -5,9 +5,9 @@ from database.utils import get_db
 router = APIRouter()
     
 @router.put("/update/intern/{id}")
-def update_intern(fim_estagio:str):
+def update_intern(id:int, fim_estagio:str):
     conn = get_db()
-    intern = InternService.InternService(conn).update(fim_estagio)
-    if intern is None:
-        raise HTTPException(status_code=404, detail="Intern não encontrado")
-    return intern
+    updated = InternService.InternService(conn).update(id, fim_estagio)
+    if updated is None:
+        raise HTTPException(status_code=400, detail="Intern não atualizado")
+    return {"message": "Book updated successfully", "book": updated}

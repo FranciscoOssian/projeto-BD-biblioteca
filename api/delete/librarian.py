@@ -7,7 +7,7 @@ router = APIRouter()
 @router.delete("/delete/librarian/{id}")
 def delete_librarian(id:int):
     conn = get_db()
-    librarian = LibrarianService.LibrarianService(conn).delete(id)
-    if librarian is None:
+    deleted = LibrarianService.LibrarianService(conn).delete(id)
+    if not deleted:
         raise HTTPException(status_code=404, detail="Librarian não encontrado")
-    return librarian
+    return {"message": "Book deleted successfully"}

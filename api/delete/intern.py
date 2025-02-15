@@ -7,7 +7,7 @@ router = APIRouter()
 @router.delete("/delete/intern/{id}")
 def delete_intern(id:int):
     conn = get_db()
-    intern = InternService.InternService(conn).delete(id)
-    if intern is None:
+    deleted = InternService.InternService(conn).delete(id)
+    if deleted:
         raise HTTPException(status_code=404, detail="Intern não encontrado")
-    return intern
+    return {"message": "intern deleted successfully"}

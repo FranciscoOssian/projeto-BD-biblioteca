@@ -9,5 +9,5 @@ def create_teacher(email:str, materia:str):
     conn = get_db()
     teacher = TeacherService.TeacherService(conn).create(email, materia)
     if teacher is None:
-        raise HTTPException(status_code=404, detail="Teacher não encontrado")
+        raise HTTPException(status_code=400, detail="Failed to create teacher")
     return teacher

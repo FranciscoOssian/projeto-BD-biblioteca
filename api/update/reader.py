@@ -5,9 +5,9 @@ from database.utils import get_db
 router = APIRouter()
     
 @router.put("/update/reader/{id}")
-def update_reader(nome:str, endereco:str, data_registro:str, tipo_leitor:str):
+def update_reader(id:int, nome:str, endereco:str, data_registro:str, tipo_leitor:str):
     conn = get_db()
-    reader = ReaderService.ReaderService(conn).update(nome, endereco, data_registro, tipo_leitor)
-    if reader is None:
-        raise HTTPException(status_code=404, detail="Reader não encontrado")
-    return reader
+    updated = ReaderService.ReaderService(conn).update(id, nome, endereco, data_registro, tipo_leitor)
+    if updated is None:
+        raise HTTPException(status_code=400, detail="Reader não atualizado")
+    return updated

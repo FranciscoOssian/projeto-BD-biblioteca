@@ -7,7 +7,7 @@ router = APIRouter()
 @router.delete("/delete/student/{id}")
 def delete_student(id:int):
     conn = get_db()
-    student = StudentService.StudentService(conn).delete(id)
-    if student is None:
+    deleted = StudentService.StudentService(conn).delete(id)
+    if not deleted:
         raise HTTPException(status_code=404, detail="Student não encontrado")
-    return student
+    return {"message": "Book deleted successfully"}

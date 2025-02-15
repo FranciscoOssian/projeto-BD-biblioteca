@@ -7,7 +7,7 @@ router = APIRouter()
 @router.delete("/delete/employee/{id}")
 def delete_employee(id:int):
     conn = get_db()
-    employee = EmployeeService.EmployeeService(conn).delete(id)
-    if employee is None:
+    deleted = EmployeeService.EmployeeService(conn).delete(id)
+    if not deleted:
         raise HTTPException(status_code=404, detail="Employee não encontrado")
-    return employee
+    return {"message": "employee deleted successfully"}
