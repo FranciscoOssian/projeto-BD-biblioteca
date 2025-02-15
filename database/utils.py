@@ -1,4 +1,5 @@
 import os
+import sqlite3
 
 def read_sql_file(filepath):
     """
@@ -16,3 +17,17 @@ def read_sql_file(filepath):
             return f.read()
     except FileNotFoundError:
         raise FileNotFoundError(f"Arquivo SQL '{filepath}' não encontrado.")
+
+def row_to_dict(cursor: sqlite3.Cursor, row: sqlite3.Row) -> dict:
+    data = {}
+    for idx, col in enumerate(cursor.description):
+        data[col[0]] = row[idx]
+    return data
+
+def get_db():
+    conn = sqlite3.connect("app.db")
+    conn.row_factory = row_to_dict
+    if conn is None:
+        print("Erro ao conectar ao banco de dados. Verifique a configuração.")
+        return
+    return conn
