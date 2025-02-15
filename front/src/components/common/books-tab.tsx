@@ -48,6 +48,7 @@ const mockBooks: Book[] = [
 ];
 
 export function BooksTab() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [books, setBooks] = useState<Book[]>(mockBooks);
   const [searchTerm, setSearchTerm] = useState("");
 
