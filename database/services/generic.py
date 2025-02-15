@@ -12,6 +12,7 @@ class GenericService:
         self.conn = conn
         self.cursor = conn.cursor()
         self.entity_name = entity_name
+        self.model = model
 
     def create(self, *args):
         """Cria um novo registro."""
@@ -33,6 +34,7 @@ class GenericService:
         try:
             self.cursor.execute(sql, (id_value,))
             result = self.cursor.fetchone()
+            print(result)
             return result
         except Exception as e:
             print(f"Erro ao buscar {self.entity_name} com id {id_value}: {e}")
