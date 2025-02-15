@@ -4,7 +4,7 @@ from database.utils import get_db
 
 router = APIRouter()
     
-@router.get("/delete/book/{id}")
+@router.delete("/delete/book/{id}")
 def delete_book(id:int):
     conn = get_db()
     book = BookService.BookService(conn).delete(id)

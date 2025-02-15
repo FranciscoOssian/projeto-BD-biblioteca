@@ -4,7 +4,7 @@ from database.utils import get_db
 
 router = APIRouter()
     
-@router.get("/create/student/{id}")
+@router.post("/create/student/{id}")
 def create_student(age:int, school:str):
     conn = get_db()
     student = StudentService.StudentService(conn).create(age, school)

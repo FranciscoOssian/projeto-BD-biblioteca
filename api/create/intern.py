@@ -4,7 +4,7 @@ from database.utils import get_db
 
 router = APIRouter()
     
-@router.get("/create/intern/{id}")
+@router.post("/create/intern/{id}")
 def create_intern(fim_estagio:str):
     conn = get_db()
     intern = InternService.InternService(conn).create(fim_estagio)

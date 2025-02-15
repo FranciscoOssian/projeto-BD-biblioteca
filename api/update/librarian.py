@@ -4,7 +4,7 @@ from database.utils import get_db
 
 router = APIRouter()
     
-@router.get("/update/librarian/{id}")
+@router.put("/update/librarian/{id}")
 def update_librarian(tempo_trabalhado:str):
     conn = get_db()
     librarian = LibrarianService.LibrarianService(conn).update(tempo_trabalhado)

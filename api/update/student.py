@@ -4,7 +4,7 @@ from database.utils import get_db
 
 router = APIRouter()
     
-@router.get("/update/student/{id}")
+@router.put("/update/student/{id}")
 def update_student(age:int, school:str):
     conn = get_db()
     student = StudentService.StudentService(conn).update(age, school)

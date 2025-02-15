@@ -4,7 +4,7 @@ from database.utils import get_db
 
 router = APIRouter()
     
-@router.get("/create/employee/{id}")
+@router.post("/create/employee/{id}")
 def create_employee(nome:str, telefone:str, id_library:int):
     conn = get_db()
     employee = EmployeeService.EmployeeService(conn).create(nome, telefone, id_library)

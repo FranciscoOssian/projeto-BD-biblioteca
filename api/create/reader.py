@@ -4,7 +4,7 @@ from database.utils import get_db
 
 router = APIRouter()
     
-@router.get("/create/reader/{id}")
+@router.post("/create/reader/{id}")
 def create_reader(nome:str, endereco:str, data_registro:str, tipo_leitor:str):
     conn = get_db()
     reader = ReaderService.ReaderService(conn).create(nome, endereco, data_registro, tipo_leitor)

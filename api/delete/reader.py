@@ -4,7 +4,7 @@ from database.utils import get_db
 
 router = APIRouter()
     
-@router.get("/delete/reader/{id}")
+@router.delete("/delete/reader/{id}")
 def delete_reader(id:int):
     conn = get_db()
     reader = ReaderService.ReaderService(conn).delete(id)

@@ -4,7 +4,7 @@ from database.utils import get_db
 
 router = APIRouter()
     
-@router.get("/delete/employee/{id}")
+@router.delete("/delete/employee/{id}")
 def delete_employee(id:int):
     conn = get_db()
     employee = EmployeeService.EmployeeService(conn).delete(id)

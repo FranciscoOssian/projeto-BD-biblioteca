@@ -4,7 +4,7 @@ from database.utils import get_db
 
 router = APIRouter()
     
-@router.get("/create/librarian/{id}")
+@router.post("/create/librarian/{id}")
 def create_librarian(tempo_trabalhado:str):
     conn = get_db()
     librarian = LibrarianService.LibrarianService(conn).create(tempo_trabalhado)

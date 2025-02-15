@@ -4,7 +4,7 @@ from database.utils import get_db
 
 router = APIRouter()
     
-@router.get("/delete/loan/{id}")
+@router.delete("/delete/loan/{id}")
 def delete_loan(id:int):
     conn = get_db()
     loan = LoanService.LoanService(conn).delete(id)

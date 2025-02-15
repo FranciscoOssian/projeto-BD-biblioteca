@@ -4,7 +4,7 @@ from database.utils import get_db
 
 router = APIRouter()
     
-@router.get("/create/book/{id}")
+@router.post("/create/book/{id}")
 def create_book(titulo: str, editora: str, isbn: int, ano_publicacao: int, autor: str, id_loan: int, id_categoria:int):
     conn = get_db()
     book = BookService.BookService(conn).create(titulo, editora, isbn, ano_publicacao, autor, id_loan, id_categoria)
