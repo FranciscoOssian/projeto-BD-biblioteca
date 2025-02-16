@@ -1,15 +1,15 @@
 from fastapi import APIRouter, HTTPException
 from database.services import employee as EmployeeService
 from database.utils import get_db
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 
 router = APIRouter()
 
 class EmployeeCreateRequest(BaseModel):
-    nome: str = Field(..., example="The Great Gatsby")
-    telefone: str = Field(..., example="85-123456789")
-    id_library: int = Field(..., example=2)
+    nome: str
+    telefone: str
+    id_library: int
 
 
 @router.post("/create/employee/", response_class=dict)

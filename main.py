@@ -1,47 +1,19 @@
 from fastapi import FastAPI
-import api.read.book, api.read.employee, api.read.intern, api.read.librarian, api.read.loan, api.read.reader, api.read.student, api.read.teacher
-import api.update.book, api.update.employee, api.update.intern, api.update.librarian, api.update.loan, api.update.reader, api.update.student, api.update.teacher
-import api.create.book, api.create.employee, api.create.intern, api.create.librarian, api.create.loan, api.create.reader, api.create.student, api.create.teacher
-import api.delete.book, api.delete.employee, api.delete.intern, api.delete.librarian, api.delete.loan, api.delete.reader, api.delete.student, api.delete.teacher
+import os
+from database.utils import execute_triggers, get_db
+
+base_dir = os.path.dirname(os.path.abspath(__file__))
+conn = get_db()
+execute_triggers(conn, base_dir + '/database/queries/triggers')
 
 app = FastAPI(title="Mini Sistema de Biblioteca")
 
-app.include_router(api.read.book.router)
-app.include_router(api.read.employee.router)
-app.include_router(api.read.intern.router)
-app.include_router(api.read.librarian.router)
-app.include_router(api.read.student.router)
-app.include_router(api.read.student.router)
-app.include_router(api.read.student.router)
-app.include_router(api.read.student.router)
-
-app.include_router(api.update.student.router)
-app.include_router(api.update.student.router)
-app.include_router(api.update.student.router)
-app.include_router(api.update.student.router)
-app.include_router(api.update.student.router)
-app.include_router(api.update.student.router)
-app.include_router(api.update.student.router)
-app.include_router(api.update.student.router)
-
-app.include_router(api.create.student.router)
-app.include_router(api.create.student.router)
-app.include_router(api.create.student.router)
-app.include_router(api.create.student.router)
-app.include_router(api.create.student.router)
-app.include_router(api.create.student.router)
-app.include_router(api.create.student.router)
-app.include_router(api.create.student.router)
-
-app.include_router(api.delete.student.router)
-app.include_router(api.delete.student.router)
-app.include_router(api.delete.student.router)
-app.include_router(api.delete.student.router)
-app.include_router(api.delete.student.router)
-app.include_router(api.delete.student.router)
-app.include_router(api.delete.student.router)
-app.include_router(api.delete.student.router)
-
+# Inclusão dinâmica das rotas de cada categoria
+for action in ["create", "read", "update", "delete"]:
+    for entity in ["book", "employee", "loan", "reader"]:
+        module = f"api.{action}.{entity}"
+        router = __import__(module, fromlist=['router'])
+        app.include_router(router.router)
 
 @app.get("/")
 def root():

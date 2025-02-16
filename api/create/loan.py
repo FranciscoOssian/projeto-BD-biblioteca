@@ -1,15 +1,15 @@
 from fastapi import APIRouter, HTTPException
 from database.services import loan as LoanService
 from database.utils import get_db
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 router = APIRouter()
     
 class LoanCreateRequest(BaseModel):
-    data_retirado:str = Field(..., example=""), 
-    data_devolucao:str = Field(..., example=""), 
-    id_livro:int = Field(..., example=""), 
-    id_leitor:int = Field(..., example="")
+    data_retirado:str
+    data_devolucao:str
+    id_livro:int
+    id_leitor:int
     
 @router.post("/create/loan/", response_class=dict)
 def create_loan(loan_data: LoanCreateRequest):

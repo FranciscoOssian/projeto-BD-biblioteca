@@ -1,18 +1,18 @@
 from fastapi import APIRouter, HTTPException
 from database.services import book as BookService
 from database.utils import get_db
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 router = APIRouter()
 
 class BookCreateRequest(BaseModel):
-    titulo: str = Field(..., example="The Great Gatsby")
-    editora: str = Field(..., example="Scribner")
-    isbn: int = Field(..., example=9780743273565)
-    ano_publicacao: int = Field(..., example=1925)
-    autor: str = Field(..., example="F. Scott Fitzgerald")
-    id_loan: int = Field(..., example=1)
-    id_categoria: int = Field(..., example=2)
+    titulo: str
+    editora: str
+    isbn: int
+    ano_publicacao: int
+    autor: str
+    id_loan: int
+    id_categoria: int
 
 
 @router.post("/create/book/", response_class=dict)

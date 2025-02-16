@@ -1,16 +1,16 @@
 from fastapi import APIRouter, HTTPException
 from database.services import reader as ReaderService
 from database.utils import get_db
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 
 router = APIRouter()
     
 class ReaderCreateRequest(BaseModel):
-    nome: str = Field(...),
-    endereco: str = Field(...), 
-    data_registro:str= Field(...), 
-    tipo_leitor:str = Field(...)
+    nome: str
+    endereco: str
+    data_registro:str
+    tipo_leitor:str
 
 @router.post("/create/reader/", response_class=dict)
 def create_reader(reader_data: ReaderCreateRequest):
