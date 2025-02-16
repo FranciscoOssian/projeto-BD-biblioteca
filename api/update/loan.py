@@ -1,13 +1,21 @@
+import datetime
 from fastapi import APIRouter, HTTPException
+from pydantic import BaseModel
 from database.services import loan as LoanService
 from database.utils import get_db
 
 router = APIRouter()
-    
-@router.put("/update/loan/{id}")
-def update_loan(id:int, data_retirado:str, data_devolucao:str, id_livro:int, id_leitor:int):
+
+class Req(BaseModel):
+    id: int
+
+@router.put("/return/book")
+def update_loan(req: Req):
     conn = get_db()
-    updated = LoanService.LoanService(conn).update(id, data_retirado, data_devolucao, id_livro, id_leitor)
+    loan = LoanService.LoanService(conn).get(req.id)
+    updated = LoanService.LoanService(conn).update(
+        (datetime.now(), loan.data_devolucao, loan.id_livro, loan.id_leitor)
+    )
     if updated is None:
         raise HTTPException(status_code=400, detail="Loan não atualizado")
     return {"message": "Book updated successfully", "book": updated}
