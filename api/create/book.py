@@ -1,19 +1,11 @@
 from typing import List
 from fastapi import APIRouter, HTTPException
+from api.types.book import Book
 from database.services import book as BookService
 from database.utils import get_db
 from pydantic import BaseModel
 
 router = APIRouter()
-
-class Book(BaseModel):
-    titulo: str
-    editora: str
-    isbn: int
-    ano_publicacao: int
-    autor: str
-    id_loan: int
-    id_categoria: int
 
 class ReqBody(BaseModel):
     books: List[Book]

@@ -1,23 +1,18 @@
 from fastapi import APIRouter, HTTPException
+from api.types.employee import Employee
 from database.services import employee as EmployeeService
 from database.utils import get_db
 from pydantic import BaseModel
 
 router = APIRouter()
 
-class EmployeeCreateRequest(BaseModel):
-    nome: str
-    telefone: str
-    id_library: int
+class Req(BaseModel):
+    employee: Employee
 
-@router.post("/create/employee/", response_class=dict)
-def create_employee(employee_data: EmployeeCreateRequest):
+@router.post("/create/employee/")
+def create_employee(req: Req):
     conn = get_db()
-    employee = EmployeeService.EmployeeService(conn).create(
-        nome = employee_data.nome,
-        telefone = employee_data.telefone,
-        id_library = employee_data.id_library
-    )
-    if employee is None:
-        raise HTTPException(status_code=400, detail="Failed to create book")
-    return {"message": "Book created successfully", "employee": employee}
+    done = EmployeeService.EmployeeService(conn).create_employee(req.employee)
+    if not done:
+        raise HTTPException(status_code=400, detail="Failed to create employee")
+    return {"message": "Employee created successfully", "status": done}
