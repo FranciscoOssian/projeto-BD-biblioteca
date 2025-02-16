@@ -1,10 +1,14 @@
 from fastapi import FastAPI
 import os
 from database.utils import get_db
+from database.services.database import DataBaseService
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 conn = get_db()
 #execute_triggers(conn, base_dir + '/database/queries/triggers')
+
+db = DataBaseService(conn)
+db.create()
 
 app = FastAPI(title="Mini Sistema de Biblioteca")
 
