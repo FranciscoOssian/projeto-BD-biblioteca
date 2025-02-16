@@ -1,1 +1,1 @@
-INSERT INTO intern (fim_estagio) VALUES (?);
+INSERT INTO intern (id, fim_estagio) VALUES (?, ?);

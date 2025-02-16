@@ -1,3 +1,3 @@
 UPDATE employee
-SET nome = ?, telefone = ?, id_library = ?
+SET nome = ?, telefone = ?
 where id = ?;

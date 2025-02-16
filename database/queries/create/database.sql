@@ -19,20 +19,20 @@ CREATE TABLE IF NOT EXISTS book (
 
 CREATE TABLE IF NOT EXISTS intern (
     id INTEGER PRIMARY KEY,
-    fim_estagio TIMESTAMP
+    fim_estagio TIMESTAMP,
+    FOREIGN KEY (id) REFERENCES employee(id)
 );
 
 CREATE TABLE IF NOT EXISTS librarian (
     id INTEGER PRIMARY KEY,
-    tempo_trabalhado TIMESTAMP
+    tempo_trabalhado TIMESTAMP,
+    FOREIGN KEY (id) REFERENCES employee(id)
 );
 
 CREATE TABLE if NOT EXISTS employee (
-    nome TEXT NOT NULL,
-    telefone TEXT NOT NULL,
     id INTEGER PRIMARY KEY,
-    id_library INTEGER,
-    FOREIGN KEY (id_library) REFERENCES library(id)
+    nome TEXT NOT NULL,
+    telefone TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS reader (
