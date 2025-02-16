@@ -1,10 +1,10 @@
+from typing import Optional
 from pydantic import BaseModel
 
 class Book(BaseModel):
     titulo: str
     editora: str
-    isbn: int
+    isbn: str
     ano_publicacao: int
     autor: str
-    id_loan: int
-    id_categoria: int
+    id_loan: Optional[int] = None

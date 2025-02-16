@@ -8,11 +8,11 @@ CREATE TABLE IF NOT EXISTS book (
     id INTEGER PRIMARY KEY NOT NULL,
     titulo TEXT NOT NULL,
     editora TEXT,
-    isbn INTEGER,
+    isbn TEXT,
     ano_publicacao INTEGER,
     autor TEXT,
-    id_loan INTEGER,
-    id_categoria INTEGER,
+    id_loan INTEGER NULL,
+    id_categoria INTEGER NULL,
     FOREIGN KEY (id_loan) REFERENCES loan(id),
     FOREIGN KEY (id_categoria) REFERENCES categorias(id)
 );
