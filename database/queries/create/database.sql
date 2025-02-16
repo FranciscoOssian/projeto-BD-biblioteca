@@ -1,7 +1,8 @@
 CREATE TABLE IF NOT EXISTS student (
     id INTEGER PRIMARY KEY,
     age INTEGER NOT NULL,
-    school TEXT NOT NULL
+    school TEXT NOT NULL,
+    FOREIGN KEY (id) REFERENCES reader(id)
 );
 
 CREATE TABLE IF NOT EXISTS book (
@@ -46,7 +47,8 @@ CREATE TABLE IF NOT EXISTS reader (
 CREATE TABLE IF NOT EXISTS teacher (
     id INTEGER PRIMARY KEY NOT NULL,
     email TEXT NOT NULL,
-    materia TEXT
+    materia TEXT,
+    FOREIGN KEY (id) REFERENCES reader(id)
 );
 
 CREATE TABLE IF NOT EXISTS loan (

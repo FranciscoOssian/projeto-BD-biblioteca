@@ -1,1 +1,1 @@
-INSERT INTO teacher (email, materia) VALUES (?, ?);
+INSERT INTO teacher (id, email, materia) VALUES (?, ?, ?);
