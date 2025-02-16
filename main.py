@@ -1,15 +1,16 @@
 from fastapi import FastAPI
 import os
-from database.utils import get_db
+from database.utils import execute_triggers, get_db
 from database.services.database import DataBaseService
 from fastapi.middleware.cors import CORSMiddleware
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 conn = get_db()
-#execute_triggers(conn, base_dir + '/database/queries/triggers')
+
 
 db = DataBaseService(conn)
 db.create()
+execute_triggers(conn, base_dir + '/database/queries/triggers')
 
 app = FastAPI(title="Mini Sistema de Biblioteca")
 

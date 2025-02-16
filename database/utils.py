@@ -31,3 +31,19 @@ def get_db():
         print("Erro ao conectar ao banco de dados. Verifique a configuração.")
         return
     return conn
+
+def execute_triggers(conn, triggers_folder):
+    """
+    Lê todos os arquivos .sql na pasta triggers_folder e executa seu conteúdo no banco de dados.
+    """
+    for filename in os.listdir(triggers_folder):
+        if filename.endswith('.sql'):
+            file_path = os.path.join(triggers_folder, filename)
+            sql_content = read_sql_file(file_path)
+            try:
+                conn.executescript(sql_content)
+                print(f"Trigger '{filename}' executado com sucesso.")
+            except Exception as e:
+                print(f"Erro ao executar o trigger '{filename}': {e}")
+    
+    conn.commit()

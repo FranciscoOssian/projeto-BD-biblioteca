@@ -1,5 +1,5 @@
 from datetime import time
-from typing import Literal
+from typing import Literal, Optional
 from pydantic import BaseModel
 
 class Intern(BaseModel):
@@ -12,5 +12,5 @@ class Employee(BaseModel):
     nome: str
     telefone: str
     role: Literal['intern', 'librarian']
-    intern_attributes: Intern
-    librarian_attributes: Librarian
+    intern_attributes: Optional[Intern]
+    librarian_attributes: Optional[Librarian]
