@@ -1,4 +1,5 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { DashboardTab } from "@/components/common/dashboard-tab";
 import { BooksTab } from "@/components/common/books-tab";
 import { ReadersTab } from "@/components/common/readers-tab";
 import { LoansTab } from "@/components/common/loans-tab";
@@ -12,32 +13,34 @@ export default function LibraryDashboard() {
         <h1 className="text-3xl font-bold tracking-tight">
           Library Management System
         </h1>
-        <p className="text-muted-foreground">
-          Manage books, readers, loans, and more.
-        </p>
+        <p className="text-muted-foreground">Manage your library efficiently</p>
       </div>
 
-      <Tabs defaultValue="books" className="space-y-4">
+      <Tabs defaultValue="dashboard" className="space-y-4">
         <TabsList>
+          <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
           <TabsTrigger value="books">Books</TabsTrigger>
           <TabsTrigger value="readers">Readers</TabsTrigger>
           <TabsTrigger value="loans">Loans</TabsTrigger>
           <TabsTrigger value="employees">Employees</TabsTrigger>
           <TabsTrigger value="categories">Categories</TabsTrigger>
         </TabsList>
-        <TabsContent value="books" className="space-y-4">
+        <TabsContent value="dashboard">
+          <DashboardTab />
+        </TabsContent>
+        <TabsContent value="books">
           <BooksTab />
         </TabsContent>
-        <TabsContent value="readers" className="space-y-4">
+        <TabsContent value="readers">
           <ReadersTab />
         </TabsContent>
-        <TabsContent value="loans" className="space-y-4">
+        <TabsContent value="loans">
           <LoansTab />
         </TabsContent>
-        <TabsContent value="employees" className="space-y-4">
+        <TabsContent value="employees">
           <EmployeesTab />
         </TabsContent>
-        <TabsContent value="categories" className="space-y-4">
+        <TabsContent value="categories">
           <CategoriesTab />
         </TabsContent>
       </Tabs>

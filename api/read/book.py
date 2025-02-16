@@ -13,7 +13,7 @@ def get_book(id: int):
         raise HTTPException(status_code=404, detail="Livro não encontrado")
     return book 
 
-@router.get("/read/book/")
+@router.get("/read/book")
 def get_book_all():
     conn = get_db()
     book = BookService.BookService(conn).get_all()

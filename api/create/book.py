@@ -12,13 +12,15 @@ class ReqBody(BaseModel):
 
 @router.post("/create/books/")
 def create_book(req: ReqBody):
+    print(req)
     conn = get_db()
     tuplas = [
         (book.titulo, book.editora, book.isbn,
          book.ano_publicacao, book.autor,
-         book.id_loan, book.id_categoria)
+         book.id_loan)
         for book in req.books
     ]
+    print(tuplas)
     status = BookService.BookService(conn).create_many(tuplas)
     if status is None or status is False:
         raise HTTPException(status_code=500, detail="Failed to create books")
