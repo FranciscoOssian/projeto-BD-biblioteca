@@ -1,3 +1,4 @@
+from typing import List
 from database.utils import read_sql_file
 
 class GenericService:
@@ -15,10 +16,13 @@ class GenericService:
         self.entity_name = entity_name
         self.model = model
     
-    def execute(self, sql, params=None, fetch_one=False, fetch_all=False):
+    def execute(self, sql, params=None, fetch_one=False, fetch_all=False, many=False):
         """Executa uma query SQL segura."""
         try:
-            self.cursor.execute(sql, params or ())
+            if many:
+                self.cursor.executemany(sql, params or [()])
+            else:
+                self.cursor.execute(sql, params or ())
             self.conn.commit()
 
             if fetch_one:
@@ -32,6 +36,13 @@ class GenericService:
             self.conn.rollback()
             print(f"Erro ao executar SQL: {e}")
             return False
+    
+    def create_many(self, data_list: List[tuple]):
+        """Cria vários registros e retorna os IDs inseridos"""
+        sql_file = f"queries/create/{self.entity_name}.sql"
+        sql = read_sql_file(sql_file)
+        self.execute(sql, data_list, many=True)
+        return True
 
     def create(self, data_tuple):
         """Cria um novo registro e retorna o ID inserido."""
