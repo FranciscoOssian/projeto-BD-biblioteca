@@ -54,7 +54,9 @@ CREATE TABLE IF NOT EXISTS loan (
     data_retirado TIMESTAMP NULL,
     data_devolucao TIMESTAMP NOT NULL,
     id_livro INTEGER NOT NULL,
-    id_leitor INTEGER NOT NULL
+    id_leitor INTEGER NOT NULL,
+    FOREIGN KEY (id_livro) REFERENCES book(id)
+    FOREIGN KEY (id_leitor) REFERENCES reader(id)
 );
 
 CREATE TABLE IF NOT EXISTS categorias_livro (
