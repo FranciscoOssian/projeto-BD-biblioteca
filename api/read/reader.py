@@ -12,3 +12,11 @@ def get_reader(id: int):
     if reader is None:
         raise HTTPException(status_code=404, detail="Reader não encontrado")
     return reader
+
+@router.get("/read/readers")
+def get_book_all():
+    conn = get_db()
+    book = ReaderService.ReaderService(conn).get_all()
+    if book is None:
+        raise HTTPException(status_code=404, detail="Readers não encontrados")
+    return book 

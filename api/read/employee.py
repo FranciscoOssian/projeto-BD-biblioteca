@@ -12,3 +12,11 @@ def get_employee(id: int):
     if employee is None:
         raise HTTPException(status_code=404, detail="Funcionario não encontrado")
     return employee
+
+@router.get("/read/employees")
+def get_book_all():
+    conn = get_db()
+    employees = EmployeeService.EmployeeService(conn).get_all()
+    if employees is None:
+        raise HTTPException(status_code=404, detail="Employees não encontrados")
+    return employees 

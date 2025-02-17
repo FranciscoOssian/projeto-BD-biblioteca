@@ -56,6 +56,12 @@ class GenericService:
         sql_file = f"queries/update/{self.entity_name}.sql"
         sql = read_sql_file(sql_file)
         return self.execute(sql, data_tuple)
+    
+    def get_all(self):
+        """Recupera todos registro da base de dados."""
+        sql_file = f"queries/read/{self.entity_name}_all.sql"
+        sql = read_sql_file(sql_file)
+        return self.execute(sql, fetch_all=True)
 
     def get(self, id):
         """Recupera um registro da base de dados."""

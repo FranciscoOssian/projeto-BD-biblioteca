@@ -12,6 +12,7 @@ class Req(BaseModel):
 @router.post("/create/reader/")
 def create_reader(req: Req):
     conn = get_db()
+    print(req)
     done = ReaderService.ReaderService(conn).create_reader(req.reader)
     if not done:
         raise HTTPException(status_code=400, detail="Failed to create reader")
