@@ -27,33 +27,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { createBooks, getAllBooks } from "@/lib/api";
 
 type Book = {
+  id: string;
   isbn: string;
   title: string;
   author: string;
   publicationYear: number;
   id_loan: number;
 };
-
-const mockBooks: Book[] = [
-  {
-    isbn: "978-0-7475-3269-9",
-    title: "Harry Potter and the Philosopher's Stone",
-    author: "J.K. Rowling",
-    publicationYear: 1997,
-    category: "Fantasy",
-    status: "Available",
-    copies: 5,
-  },
-  {
-    isbn: "978-0-06-112008-4",
-    title: "The Hobbit",
-    author: "J.R.R. Tolkien",
-    publicationYear: 1937,
-    category: "Fantasy",
-    status: "Loaned",
-    copies: 3,
-  },
-];
 
 export function BooksTab() {
   const [books, setBooks] = useState<Book[]>([]);
@@ -63,6 +43,7 @@ export function BooksTab() {
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       bd_books = bd_books.map((book: any) => ({
+        id: book.id,
         title: book.titulo,
         publisher: book.editora,
         isbn: book.isbn,
@@ -239,6 +220,7 @@ export function BooksTab() {
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead>ID</TableHead>
               <TableHead>ISBN</TableHead>
               <TableHead>Title</TableHead>
               <TableHead>Author</TableHead>
@@ -250,6 +232,7 @@ export function BooksTab() {
           <TableBody>
             {filteredBooks.map((book, i) => (
               <TableRow key={book.isbn + i}>
+                <TableCell>{book.id}</TableCell>
                 <TableCell>{book.isbn}</TableCell>
                 <TableCell>{book.title}</TableCell>
                 <TableCell>{book.author}</TableCell>

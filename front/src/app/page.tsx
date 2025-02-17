@@ -1,10 +1,8 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DashboardTab } from "@/components/common/dashboard-tab";
 import { BooksTab } from "@/components/common/books-tab";
 import { ReadersTab } from "@/components/common/readers-tab";
 import { LoansTab } from "@/components/common/loans-tab";
 import { EmployeesTab } from "@/components/common/employees-tab";
-import { CategoriesTab } from "@/components/common/categories-tab";
 
 export default function LibraryDashboard() {
   return (
@@ -18,16 +16,11 @@ export default function LibraryDashboard() {
 
       <Tabs defaultValue="dashboard" className="space-y-4">
         <TabsList>
-          <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
           <TabsTrigger value="books">Books</TabsTrigger>
           <TabsTrigger value="readers">Readers</TabsTrigger>
           <TabsTrigger value="loans">Loans</TabsTrigger>
           <TabsTrigger value="employees">Employees</TabsTrigger>
-          <TabsTrigger value="categories">Categories</TabsTrigger>
         </TabsList>
-        <TabsContent value="dashboard">
-          <DashboardTab />
-        </TabsContent>
         <TabsContent value="books">
           <BooksTab />
         </TabsContent>
@@ -39,9 +32,6 @@ export default function LibraryDashboard() {
         </TabsContent>
         <TabsContent value="employees">
           <EmployeesTab />
-        </TabsContent>
-        <TabsContent value="categories">
-          <CategoriesTab />
         </TabsContent>
       </Tabs>
     </div>

@@ -12,3 +12,11 @@ def get_loan(id: int):
     if loan is None:
         raise HTTPException(status_code=404, detail="Loan não encontrado")
     return loan
+
+@router.get("/read/loans")
+def get_book_all():
+    conn = get_db()
+    loans = LoanService.LoanService(conn).get_all()
+    if loans is None:
+        raise HTTPException(status_code=404, detail="Loans não encontrados")
+    return loans 
