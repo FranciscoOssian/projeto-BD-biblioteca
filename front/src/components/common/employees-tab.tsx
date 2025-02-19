@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -28,6 +28,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Plus, Search } from "lucide-react";
+import { createEmployee, getAllEmployees } from "@/lib/api";
 
 type Employee = {
   id: string;
@@ -38,27 +39,27 @@ type Employee = {
   startDate: string;
 };
 
-const mockEmployees: Employee[] = [
-  {
-    id: "E001",
-    name: "Alice Johnson",
-    role: "Librarian",
-    phone: "555-0101",
-    email: "alice@library.com",
-    startDate: "2023-01-15",
-  },
-  {
-    id: "E002",
-    name: "Bob Wilson",
-    role: "Intern",
-    phone: "555-0102",
-    email: "bob@library.com",
-    startDate: "2024-01-01",
-  },
-];
-
 export function EmployeesTab() {
-  const [employees] = useState<Employee[]>(mockEmployees);
+  const [employees, setEmployees] = useState<Employee[]>([]);
+  const [selectedType, setSelectedType] = useState("librarian");
+  useEffect(() => {
+    const run = async () => {
+      let bd_employees = await getAllEmployees();
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      bd_employees = bd_employees.map((employee: any) => ({
+        name: employee.nome,
+        phone: employee.telefone,
+        role: employee.role,
+        intern_attributes: employee.intern_attributes,
+        librarian_attributes: employee.librarian_attributes,
+      }));
+
+      setEmployees(bd_employees);
+    };
+    run();
+  }, []);
+
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredEmployees = employees.filter(
@@ -66,6 +67,27 @@ export function EmployeesTab() {
       employee.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       employee.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const onHandleCreateEmployee = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.currentTarget as HTMLFormElement;
+    const formData = new FormData(form);
+    formData.append("type", selectedType);
+
+    const name = formData.get("name");
+    const phone = formData.get("phone");
+    const dueDate = formData.get("due-date");
+
+    createEmployee({
+      nome: name,
+      telefone: phone,
+      role: selectedType,
+      intern_attributes:
+        selectedType === "intern" ? { fim_estagio: dueDate } : undefined,
+      librarian_attributes:
+        selectedType === "librarian" ? { tempo_trabalhado: 0 } : undefined,
+    });
+  };
 
   return (
     <div className="space-y-4">
@@ -93,14 +115,18 @@ export function EmployeesTab() {
                 Enter the employee details below.
               </DialogDescription>
             </DialogHeader>
-            <div className="grid gap-4 py-4">
+            <form onSubmit={onHandleCreateEmployee} className="grid gap-4 py-4">
               <div className="grid gap-2">
                 <Label htmlFor="name">Name</Label>
-                <Input id="name" />
+                <Input id="name" name="name" required />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="role">Role</Label>
-                <Select>
+                <Select
+                  value={selectedType}
+                  onValueChange={setSelectedType}
+                  required
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Select role" />
                   </SelectTrigger>
@@ -112,14 +138,16 @@ export function EmployeesTab() {
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="phone">Phone</Label>
-                <Input id="phone" type="tel" />
+                <Input id="phone" name="phone" required type="tel" />
               </div>
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" />
-              </div>
-            </div>
-            <Button>Save Employee</Button>
+              {selectedType === "intern" && (
+                <div className="grid gap-2">
+                  <Label htmlFor="age">Due Date</Label>
+                  <Input id="due-date" type="date" name="due-date" required />
+                </div>
+              )}
+              <Button type="submit">Save Employee</Button>
+            </form>
           </DialogContent>
         </Dialog>
       </div>
@@ -128,24 +156,18 @@ export function EmployeesTab() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>ID</TableHead>
               <TableHead>Name</TableHead>
               <TableHead>Role</TableHead>
               <TableHead>Phone</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Start Date</TableHead>
               <TableHead>Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredEmployees.map((employee) => (
-              <TableRow key={employee.id}>
-                <TableCell>{employee.id}</TableCell>
+            {filteredEmployees.map((employee, i) => (
+              <TableRow key={i}>
                 <TableCell>{employee.name}</TableCell>
                 <TableCell>{employee.role}</TableCell>
                 <TableCell>{employee.phone}</TableCell>
-                <TableCell>{employee.email}</TableCell>
-                <TableCell>{employee.startDate}</TableCell>
                 <TableCell>
                   <Button variant="ghost" size="sm">
                     Edit

@@ -1,14 +1,34 @@
 from fastapi import FastAPI
-import api.read.book
-import api.read.intern
-import api.read.student
+import os
+from database.utils import execute_triggers, get_db
+from database.services.database import DataBaseService
+from fastapi.middleware.cors import CORSMiddleware
+
+base_dir = os.path.dirname(os.path.abspath(__file__))
+conn = get_db()
+
+
+db = DataBaseService(conn)
+db.create()
+execute_triggers(conn, base_dir + '/database/queries/triggers')
 
 app = FastAPI(title="Mini Sistema de Biblioteca")
 
-app.include_router(api.read.book.router)
-app.include_router(api.read.intern.router)
-app.include_router(api.read.student.router)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-@app.get("/")
-def root():
+# Inclusão dinâmica das rotas de cada categoria
+for action in ["create", "read", "update", "delete"]:
+    for entity in ["book", "employee", "loan", "reader"]:
+        module = f"api.{action}.{entity}"
+        router = __import__(module, fromlist=['router'])
+        app.include_router(router.router)
+
+@app.get("/", tags=["Root"])
+def home():
     return {"message": "Bem-vindo à API da Biblioteca"}

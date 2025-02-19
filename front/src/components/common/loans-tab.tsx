@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -21,6 +21,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Plus, Search } from "lucide-react";
+import { createLoan, getAllBooks, getAllLoans } from "@/lib/api";
 
 type Loan = {
   id: string;
@@ -51,7 +52,46 @@ const mockLoans: Loan[] = [
 ];
 
 export function LoansTab() {
-  const [loans] = useState<Loan[]>(mockLoans);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [loans, setLoans] = useState<any[]>([]);
+  useEffect(() => {
+    const run = async () => {
+      let bd_loans = await getAllLoans();
+      let bd_books = await getAllBooks();
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      bd_books = bd_books.map((book: any) => ({
+        id: book.id,
+        title: book.titulo,
+        publisher: book.editora,
+        isbn: book.isbn,
+        publicationYear: book.ano_publicacao,
+        author: book.autor,
+        id_loan: book.id_loan,
+      }));
+
+      console.log(bd_books);
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      bd_loans = bd_loans.map((loan: any) => ({
+        bookTitle:
+          bd_books.find(
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (book: { id_loan: any }) => book.id_loan === loan?.id
+          )?.title ?? "",
+        data_retirado: loan.data_retirado,
+        data_devolucao: loan.data_devolucao,
+        id_leitor: loan.id_leitor,
+        id_livro: loan.id_livro,
+        id: loan.id,
+        status: loan.data_retirado ? "Returned" : "Active",
+      }));
+
+      setLoans(bd_loans);
+    };
+    run();
+  }, []);
+
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredLoans = loans.filter(
@@ -59,6 +99,22 @@ export function LoansTab() {
       loan.bookTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
       loan.readerName.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const onHandleCreateLoan = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.currentTarget as HTMLFormElement;
+    const formData = new FormData(form);
+
+    const dueDate = formData.get("dueDate");
+    const bookId = formData.get("book-id");
+    const readerId = formData.get("reader-id");
+
+    createLoan({
+      data_devolucao: dueDate,
+      id_leitor: readerId,
+      id_livro: bookId,
+    });
+  };
 
   return (
     <div className="space-y-4">
@@ -86,21 +142,21 @@ export function LoansTab() {
                 Enter the loan details below.
               </DialogDescription>
             </DialogHeader>
-            <div className="grid gap-4 py-4">
+            <form onSubmit={onHandleCreateLoan} className="grid gap-4 py-4">
               <div className="grid gap-2">
-                <Label htmlFor="book">Book ISBN</Label>
-                <Input id="book" />
+                <Label htmlFor="book">Book ID</Label>
+                <Input id="book-id" name="book-id" />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="reader">Reader ID</Label>
-                <Input id="reader" />
+                <Input id="reader" name="reader-id" />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="dueDate">Due Date</Label>
-                <Input id="dueDate" type="date" />
+                <Input id="dueDate" name="dueDate" type="date" />
               </div>
-            </div>
-            <Button>Create Loan</Button>
+              <Button type="submit">Create Loan</Button>
+            </form>
           </DialogContent>
         </Dialog>
       </div>
@@ -111,21 +167,17 @@ export function LoansTab() {
             <TableRow>
               <TableHead>ID</TableHead>
               <TableHead>Book</TableHead>
-              <TableHead>Reader</TableHead>
-              <TableHead>Checkout Date</TableHead>
               <TableHead>Due Date</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredLoans.map((loan) => (
-              <TableRow key={loan.id}>
+            {filteredLoans.map((loan, i) => (
+              <TableRow key={i}>
                 <TableCell>{loan.id}</TableCell>
                 <TableCell>{loan.bookTitle}</TableCell>
-                <TableCell>{loan.readerName}</TableCell>
-                <TableCell>{loan.checkoutDate}</TableCell>
-                <TableCell>{loan.dueDate}</TableCell>
+                <TableCell>{loan.data_devolucao}</TableCell>
                 <TableCell>
                   <span
                     className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${

@@ -1,38 +1,39 @@
 CREATE TABLE IF NOT EXISTS student (
     id INTEGER PRIMARY KEY,
     age INTEGER NOT NULL,
-    school TEXT NOT NULL
+    school TEXT NOT NULL,
+    FOREIGN KEY (id) REFERENCES reader(id)
 );
 
 CREATE TABLE IF NOT EXISTS book (
     id INTEGER PRIMARY KEY NOT NULL,
     titulo TEXT NOT NULL,
     editora TEXT,
-    isbn INTEGER,
+    isbn TEXT,
     ano_publicacao INTEGER,
     autor TEXT,
-    id_loan INTEGER,
-    id_categoria INTEGER,
+    id_loan INTEGER NULL,
+    id_categoria INTEGER NULL,
     FOREIGN KEY (id_loan) REFERENCES loan(id),
     FOREIGN KEY (id_categoria) REFERENCES categorias(id)
 );
 
 CREATE TABLE IF NOT EXISTS intern (
     id INTEGER PRIMARY KEY,
-    fim_estagio TIMESTAMP
+    fim_estagio TIMESTAMP,
+    FOREIGN KEY (id) REFERENCES employee(id)
 );
 
 CREATE TABLE IF NOT EXISTS librarian (
     id INTEGER PRIMARY KEY,
-    tempo_trabalhado TIMESTAMP
+    tempo_trabalhado TIMESTAMP,
+    FOREIGN KEY (id) REFERENCES employee(id)
 );
 
 CREATE TABLE if NOT EXISTS employee (
-    nome TEXT NOT NULL,
-    telefone TEXT NOT NULL,
     id INTEGER PRIMARY KEY,
-    id_library INTEGER,
-    FOREIGN KEY (id_library) REFERENCES library(id)
+    nome TEXT NOT NULL,
+    telefone TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS reader (
@@ -46,15 +47,18 @@ CREATE TABLE IF NOT EXISTS reader (
 CREATE TABLE IF NOT EXISTS teacher (
     id INTEGER PRIMARY KEY NOT NULL,
     email TEXT NOT NULL,
-    materia TEXT
+    materia TEXT,
+    FOREIGN KEY (id) REFERENCES reader(id)
 );
 
 CREATE TABLE IF NOT EXISTS loan (
     id INTEGER PRIMARY KEY,
-    data_retirado TIMESTAMP NOT NULL,
+    data_retirado TIMESTAMP NULL,
     data_devolucao TIMESTAMP NOT NULL,
     id_livro INTEGER NOT NULL,
-    id_leitor INTEGER NOT NULL
+    id_leitor INTEGER NOT NULL,
+    FOREIGN KEY (id_livro) REFERENCES book(id)
+    FOREIGN KEY (id_leitor) REFERENCES reader(id)
 );
 
 CREATE TABLE IF NOT EXISTS categorias_livro (

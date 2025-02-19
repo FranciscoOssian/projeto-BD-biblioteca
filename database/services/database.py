@@ -3,7 +3,7 @@ from database.utils import read_sql_file
 
 class DataBaseService(GenericService):
     def __init__(self, conn):
-        super().__init__(conn, "database") 
+        super().__init__(conn, "database")
         
     def create(self):
         """Cria um novo registro."""

@@ -1,1 +1,1 @@
-INSERT INTO employee (nome, telefone, id_library) VALUES (?, ?, ?);
+INSERT INTO employee (nome, telefone) VALUES (?, ?);

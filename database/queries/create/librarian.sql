@@ -1,1 +1,1 @@
-INSERT INTO librarian (tempo_trabalhado) VALUES (?);
+INSERT INTO librarian (id, tempo_trabalhado) VALUES (?, ?);
