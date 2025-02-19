@@ -179,8 +179,8 @@ export function ReadersTab() {
           </TableHeader>
           <TableBody>
             {filteredReaders.map((reader, i) => (
-              <TableRow key={i}>
-                <TableCell>{i}</TableCell>
+              <TableRow key={i + 1}>
+                <TableCell>{i + 1}</TableCell>
                 <TableCell>{reader.name}</TableCell>
                 <TableCell>{reader.type}</TableCell>
                 <TableCell>
